@@ -19,7 +19,7 @@ namespace DBSQLONE.Pages
         public string ErrorMessage;
 
         public IndexModel() { }
-
+        
         public void OnGet()
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
