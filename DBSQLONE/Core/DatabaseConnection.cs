@@ -15,7 +15,6 @@ namespace DBSQLONE.Core
             return conn;
         }
 
-
         public static MySqlConnection GetMyDB()
         {
             return Get("localhost", 3306, "gamedb", "root", "1997");
