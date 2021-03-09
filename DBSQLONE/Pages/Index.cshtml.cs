@@ -61,7 +61,7 @@ namespace DBSQLONE.Pages
             }
         }
 
-        public void OnPostUpdate(Player player)
+        public IActionResult OnPostUpdate(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
@@ -86,10 +86,10 @@ namespace DBSQLONE.Pages
                 conn.Close();
                 conn.Dispose();
             }
-            OnGet();
+            return RedirectToPage();
         }   
 
-        public void OnPostDelete(Player player)
+        public IActionResult OnPostDelete(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
@@ -110,10 +110,10 @@ namespace DBSQLONE.Pages
                 conn.Close();
                 conn.Dispose();
             }
-            OnGet();
+            return RedirectToPage();
         }
 
-        public void OnPostInsert(Player player)
+        public IActionResult OnPostInsert(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
@@ -137,7 +137,7 @@ namespace DBSQLONE.Pages
                 conn.Close();
                 conn.Dispose();
             }
-            OnGet();
+            return RedirectToPage();
         }
     }
 }
