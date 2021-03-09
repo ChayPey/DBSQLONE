@@ -23,9 +23,9 @@ namespace DBSQLONE.Pages
         public void OnGet()
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
-            conn.Open();
             try
             {
+                conn.Open();
                 string sql = "SELECT * FROM Players";
                 MySqlCommand cmd = new MySqlCommand
                 {
@@ -64,9 +64,9 @@ namespace DBSQLONE.Pages
         public void OnPostUpdate(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
-            conn.Open();
             try
             {
+                conn.Open();
                 string sql = "UPDATE Players SET Nickname = @Nickname, Pass = @Pass, Email = @Email, Registered = @Registered WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
@@ -92,9 +92,9 @@ namespace DBSQLONE.Pages
         public void OnPostDelete(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
-            conn.Open();
             try
             {
+                conn.Open();
                 string sql = "DELETE FROM Players WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
@@ -116,9 +116,9 @@ namespace DBSQLONE.Pages
         public void OnPostInsert(Player player)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
-            conn.Open();
             try
             {
+                conn.Open();
                 string sql = "INSERT Players(Nickname, Pass, Email, Registered) VALUES(@Nickname, @Pass, @Email, @Registered)";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
