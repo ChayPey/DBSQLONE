@@ -1,34 +1,22 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Таблица Пользователей";
+    ViewData["Title"] = "Главная";
 }
+
 <table class="table">
     <thead>
-        <tr><th>Ид</th><th>Имя</th><th>Пароль</th><th>Емайл</th><th>Дата Регистрации</th></tr>
+        <tr><th><h3>Таблицы</h3></th></tr>
     </thead>
     <tbody>
-        @foreach (var Player in Model.Players)
-        {
-            <tr>
-                <td><input form="@Player.Id" style="border-width:0;" type="text" name="Id" value="@Player.Id" /></td>
-                <td><input form="@Player.Id" style="border-width:0;" type="text" name="Nickname" value="@Player.Nickname" /></td>
-                <td><input form="@Player.Id" style="border-width:0;" type="text" name="Pass" value="@Player.Pass" /></td>
-                <td><input form="@Player.Id" style="border-width:0;" type="text" name="Email" value="@Player.Email" /></td>
-                <td><input form="@Player.Id" style="border-width:0;" type="text" name="Registered" value="@Player.Registered.ToShortDateString()" /></td>
-                <td><form method="post" id="@Player.Id"><input type="submit" asp-page-handler="Update" value="Изменить"/></form></td>
-                <td><input form="@Player.Id" type="submit" asp-page-handler="Delete" value="Удалить" /></td>
-            </tr>
-        }
-        <tr>
-            <td>*</td>
-            <td><input form="Insert" type="text" name="Nickname" /></td>
-            <td><input form="Insert" type="text" name="Pass" /></td>
-            <td><input form="Insert" type="text" name="Email" /></td>
-            <td><input form="Insert" type="date" name="Registered" /></td>
-            <td><form method="post" id="Insert"><input type="submit" asp-page-handler="Insert" value="Добавить" /></form></td>
-        </tr>
+        <tr><td><a href="Tables/">Игроки</a></td></tr>
+        <tr><td><a href="Tables/">Типы Предметов</a></td></tr>
+        <tr><td><a href="Tables/">Предметы</a></td></tr>
+        <tr><td><a href="Tables/">Полученные Предметы</a></td></tr>
+        <tr><td><a href="Tables/">Гильдии</a></td></tr>
+        <tr><td><a href="Tables/">Члены гильдий</a></td></tr>
+        <tr><td><a href="Tables/">Локации</a></td></tr>
+        <tr><td><a href="Tables/CleanLocations">Пройденные Локации</a></td></tr>
     </tbody>
 </table>
-<h3><font color="#FF0000">@Model.ErrorMessage</font></h3>
 
