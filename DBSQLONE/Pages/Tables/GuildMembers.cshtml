@@ -1,0 +1,30 @@
+﻿@page
+@model DBSQLONE.Pages.Tables.GuildMembersModel
+@{
+    ViewData["Title"] = "Состав Гильдий";
+}
+
+<table class="table">
+    <thead>
+        <tr><th>Ид</th><th>Ид Игрока</th><th>Ид Гильдии</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var Row in Model.Table)
+        {
+            <tr>
+                <td><input form="@Row.Id" style="border-width:0;" type="text" name="Id" value="@Row.Id" /></td>
+                <td><input form="@Row.Id" style="border-width:0;" type="text" name="IdPlayer" value="@Row.IdPlayer" /></td>
+                <td><input form="@Row.Id" style="border-width:0;" type="text" name="IdGuild" value="@Row.IdGuild" /></td>
+                <td><form method="post" id="@Row.Id"><input type="submit" asp-page-handler="Update" value="Изменить" /></form></td>
+                <td><input form="@Row.Id" type="submit" asp-page-handler="Delete" value="Удалить" /></td>
+            </tr>
+        }
+        <tr>
+            <td>*</td>
+            <td><input form="Insert" type="number" name="IdPlayer" /></td>
+            <td><input form="Insert" type="number" name="IdGuild" /></td>
+            <td><form method="post" id="Insert"><input type="submit" asp-page-handler="Insert" value="Добавить" /></form></td>
+        </tr>
+    </tbody>
+</table>
+<h3><font color="#FF0000">@Model.ErrorMessage</font></h3>

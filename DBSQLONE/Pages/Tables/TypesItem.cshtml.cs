@@ -1,21 +1,20 @@
-﻿using DBSQLONE.Core;
-using DBSQLONE.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using DBSQLONE.Models.Tables;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
+using System.Data.Common;
+using MySql.Data.MySqlClient;
+using DBSQLONE.Core;
 
-namespace DBSQLONE.Pages
+namespace DBSQLONE.Pages.Tables
 {
-    public class IndexModel : PageModel
+    public class TypesItemModel : PageModel
     {
-        public List<Player> Players= new List<Player>();
+        public List<TypeItem> Table = new List<TypeItem>();
         public string ErrorMessage { get; set; }
 
         public void OnGet()
@@ -26,7 +25,7 @@ namespace DBSQLONE.Pages
             try
             {
                 conn.Open();
-                string sql = "SELECT * FROM Players";
+                string sql = "SELECT * FROM TypesItems";
                 MySqlCommand cmd = new MySqlCommand
                 {
                     Connection = conn,
@@ -38,13 +37,10 @@ namespace DBSQLONE.Pages
                     {
                         while (reader.Read())
                         {
-                            Players.Add(new Player
+                            Table.Add(new TypeItem
                             {
                                 Id = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("Id"))),
-                                Email = Convert.ToString(reader.GetValue(reader.GetOrdinal("Email"))),
-                                Pass = Convert.ToString(reader.GetValue(reader.GetOrdinal("Pass"))),
-                                Nickname = Convert.ToString(reader.GetValue(reader.GetOrdinal("Nickname"))),
-                                Registered = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("Registered")))
+                                NameType = Convert.ToString(reader.GetValue(reader.GetOrdinal("NameType"))),
                             });
                         }
                     }
@@ -61,44 +57,17 @@ namespace DBSQLONE.Pages
             }
         }
 
-        public IActionResult OnPostUpdate(Player player)
+        public IActionResult OnPostUpdate(TypeItem typesItem)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
             {
                 conn.Open();
-                string sql = "UPDATE Players SET Nickname = @Nickname, Pass = @Pass, Email = @Email, Registered = @Registered WHERE Id = @Id";
+                string sql = "UPDATE TypesItems SET NameType = @NameType WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = player.Nickname;
-                cmd.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = player.Pass;
-                cmd.Parameters.Add("@Email", MySqlDbType.VarChar).Value = player.Email;
-                cmd.Parameters.Add("@Registered", MySqlDbType.Date).Value = player.Registered;
-                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = player.Id;
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Response.Cookies.Append("ErrorMessage", e.Message);
-            }
-            finally
-            {
-                conn.Close();
-                conn.Dispose();
-            }
-            return RedirectToPage();
-        }   
-
-        public IActionResult OnPostDelete(Player player)
-        {
-            MySqlConnection conn = DatabaseConnection.GetMyDB();
-            try
-            {
-                conn.Open();
-                string sql = "DELETE FROM Players WHERE Id = @Id";
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = sql;
-                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = player.Id;
+                cmd.Parameters.Add("@NameType", MySqlDbType.VarChar).Value = typesItem.NameType;
+                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = typesItem.Id;
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -113,19 +82,40 @@ namespace DBSQLONE.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnPostInsert(Player player)
+        public IActionResult OnPostDelete(TypeItem typesItem)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
             {
                 conn.Open();
-                string sql = "INSERT Players(Nickname, Pass, Email, Registered) VALUES(@Nickname, @Pass, @Email, @Registered)";
+                string sql = "DELETE FROM TypesItems WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = player.Nickname;
-                cmd.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = player.Pass;
-                cmd.Parameters.Add("@Email", MySqlDbType.VarChar).Value = player.Email;
-                cmd.Parameters.Add("@Registered", MySqlDbType.Date).Value = player.Registered;
+                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = typesItem.Id;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Response.Cookies.Append("ErrorMessage", e.Message);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostInsert(TypeItem typesItem)
+        {
+            MySqlConnection conn = DatabaseConnection.GetMyDB();
+            try
+            {
+                conn.Open();
+                string sql = "INSERT TypesItems(NameType) VALUES(@NameType)";
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.Parameters.Add("@NameType", MySqlDbType.VarChar).Value = typesItem.NameType;
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)

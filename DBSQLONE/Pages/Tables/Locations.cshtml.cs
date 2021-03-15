@@ -1,21 +1,20 @@
-﻿using DBSQLONE.Core;
-using DBSQLONE.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using DBSQLONE.Models.Tables;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data;
+using System.Data.Common;
+using MySql.Data.MySqlClient;
+using DBSQLONE.Core;
 
-namespace DBSQLONE.Pages
+namespace DBSQLONE.Pages.Tables
 {
-    public class IndexModel : PageModel
+    public class LocationsModel : PageModel
     {
-        public List<Player> Players= new List<Player>();
+        public List<Location> Table = new List<Location>();
         public string ErrorMessage { get; set; }
 
         public void OnGet()
@@ -26,7 +25,7 @@ namespace DBSQLONE.Pages
             try
             {
                 conn.Open();
-                string sql = "SELECT * FROM Players";
+                string sql = "SELECT * FROM Locations";
                 MySqlCommand cmd = new MySqlCommand
                 {
                     Connection = conn,
@@ -38,13 +37,11 @@ namespace DBSQLONE.Pages
                     {
                         while (reader.Read())
                         {
-                            Players.Add(new Player
+                            Table.Add(new Location
                             {
                                 Id = Convert.ToInt32(reader.GetValue(reader.GetOrdinal("Id"))),
-                                Email = Convert.ToString(reader.GetValue(reader.GetOrdinal("Email"))),
-                                Pass = Convert.ToString(reader.GetValue(reader.GetOrdinal("Pass"))),
-                                Nickname = Convert.ToString(reader.GetValue(reader.GetOrdinal("Nickname"))),
-                                Registered = Convert.ToDateTime(reader.GetValue(reader.GetOrdinal("Registered")))
+                                NameLocation = Convert.ToString(reader.GetValue(reader.GetOrdinal("NameLocation"))),
+                                DescriptionLocations = Convert.ToString(reader.GetValue(reader.GetOrdinal("DescriptionLocations")))
                             });
                         }
                     }
@@ -61,44 +58,18 @@ namespace DBSQLONE.Pages
             }
         }
 
-        public IActionResult OnPostUpdate(Player player)
+        public IActionResult OnPostUpdate(Location location)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
             {
                 conn.Open();
-                string sql = "UPDATE Players SET Nickname = @Nickname, Pass = @Pass, Email = @Email, Registered = @Registered WHERE Id = @Id";
+                string sql = "UPDATE Locations SET NameLocation = @NameLocation, DescriptionLocations = @DescriptionLocations WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = player.Nickname;
-                cmd.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = player.Pass;
-                cmd.Parameters.Add("@Email", MySqlDbType.VarChar).Value = player.Email;
-                cmd.Parameters.Add("@Registered", MySqlDbType.Date).Value = player.Registered;
-                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = player.Id;
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Response.Cookies.Append("ErrorMessage", e.Message);
-            }
-            finally
-            {
-                conn.Close();
-                conn.Dispose();
-            }
-            return RedirectToPage();
-        }   
-
-        public IActionResult OnPostDelete(Player player)
-        {
-            MySqlConnection conn = DatabaseConnection.GetMyDB();
-            try
-            {
-                conn.Open();
-                string sql = "DELETE FROM Players WHERE Id = @Id";
-                MySqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = sql;
-                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = player.Id;
+                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = location.Id;
+                cmd.Parameters.Add("@NameLocation", MySqlDbType.VarChar).Value = location.NameLocation;
+                cmd.Parameters.Add("@DescriptionLocations", MySqlDbType.VarChar).Value = location.DescriptionLocations;
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -113,19 +84,41 @@ namespace DBSQLONE.Pages
             return RedirectToPage();
         }
 
-        public IActionResult OnPostInsert(Player player)
+        public IActionResult OnPostDelete(Location location)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
             {
                 conn.Open();
-                string sql = "INSERT Players(Nickname, Pass, Email, Registered) VALUES(@Nickname, @Pass, @Email, @Registered)";
+                string sql = "DELETE FROM Locations WHERE Id = @Id";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = player.Nickname;
-                cmd.Parameters.Add("@Pass", MySqlDbType.VarChar).Value = player.Pass;
-                cmd.Parameters.Add("@Email", MySqlDbType.VarChar).Value = player.Email;
-                cmd.Parameters.Add("@Registered", MySqlDbType.Date).Value = player.Registered;
+                cmd.Parameters.Add("@Id", MySqlDbType.Int32).Value = location.Id;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Response.Cookies.Append("ErrorMessage", e.Message);
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return RedirectToPage();
+        }
+
+        public IActionResult OnPostInsert(Location location)
+        {
+            MySqlConnection conn = DatabaseConnection.GetMyDB();
+            try
+            {
+                conn.Open();
+                string sql = "INSERT Locations(NameLocation, DescriptionLocations) VALUES(@NameLocation, @DescriptionLocations)";
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.Parameters.Add("@NameLocation", MySqlDbType.VarChar).Value = location.NameLocation;
+                cmd.Parameters.Add("@DescriptionLocations", MySqlDbType.VarChar).Value = location.DescriptionLocations;
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)

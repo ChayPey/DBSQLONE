@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace DBSQLONE.Models.Tables
 {
-    public class GetItemsGetItems
+    public class Item
     {
         public int Id { get; set; }
-        public int IdItem { get; set; }
-        public int IdPlayer { get; set; }
-        public DateTime Received { get; set; }
+        public int IdType { get; set; }
+        public string NameItem { get; set; }
+        public string DescriptionItem { get; set; }
     }
 }
