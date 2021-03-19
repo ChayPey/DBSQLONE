@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-namespace DBSQLONE.Core
+namespace DBSQLONE.Models
 {
     public class DatabaseConnection
     {

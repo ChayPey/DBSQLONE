@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 using System.Data.Common;
 using MySql.Data.MySqlClient;
-using DBSQLONE.Core;
+using DBSQLONE.Models;
 
 namespace DBSQLONE.Pages.Tables
 {

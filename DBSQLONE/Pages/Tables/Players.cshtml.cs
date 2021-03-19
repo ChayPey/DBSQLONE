@@ -1,4 +1,4 @@
-using DBSQLONE.Core;
+using DBSQLONE.Models;
 using DBSQLONE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
