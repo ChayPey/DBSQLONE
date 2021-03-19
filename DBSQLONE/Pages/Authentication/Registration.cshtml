@@ -1,0 +1,15 @@
+﻿@page
+@model DBSQLONE.Pages.Authentication.RegistrationModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+<div align="center">
+    <h4>Регистрация</h4>
+    <form method="post">
+        <input type="text" name="Nickname" />
+        <input type="email" name="Email" />
+        <input type="password" name="Password" />
+        <input type="submit" asp-page-handler="Registration" value="Зарегистрироваться" />
+    </form>
+    <h3><font color="#FF0000">@Model.ErrorMessage</font></h3>
+</div>
