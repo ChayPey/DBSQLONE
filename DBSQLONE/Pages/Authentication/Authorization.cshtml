@@ -1,0 +1,18 @@
+﻿@page
+@model DBSQLONE.Pages.Authentication.AuthorizationModel
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<div align="left">
+    <h4>Авторизация</h4>
+    <form method="post">
+        <div>Электроонная почта:</div>
+        <div><input type="email" name="EmailUser" value="@Model.NewUser.EmailUser" /></div>
+        <div>Пароль:</div>
+        <div><input type="password" name="PasswordUser" value="@Model.NewUser.PasswordUser" /></div>
+        <div><input type="submit" style=" margin-top: 8px;" asp-page-handler="Authorization" value="Вход" /></div>
+        <div><a href="/Authentication/Registration">Зарегистрироваться</a></div>
+    </form>
+    <font color="#FF0000">@Model.ErrorMessage</font>
+</div>

@@ -8,12 +8,13 @@
     <h4>Регистрация</h4>
     <form method="post">
         <div>Имя пользователя:</div>
-        <div><input type="text" name="Nickname" value="" /></div>
+        <div><input type="text" name="Nickname" value="@Model.NewUser.Nickname" /></div>
         <div>Электроонная почта:</div>
-        <div><input type="email" name="EmailUser" value="" /></div>
+        <div><input type="email" name="EmailUser" value="@Model.NewUser.EmailUser" /></div>
         <div>Пароль:</div>
-        <div><input type="password" name="PasswordUser" value="" /></div>
+        <div><input type="password" name="PasswordUser" value="@Model.NewUser.PasswordUser" /></div>
         <div><input type="submit" style=" margin-top: 8px;" asp-page-handler="Registration" value="Зарегистрироваться" /></div>
+        <div><a href="/Authentication/Authorization">Войти</a></div>
     </form>
     <font color="#FF0000">@Model.ErrorMessage</font>
 </div>

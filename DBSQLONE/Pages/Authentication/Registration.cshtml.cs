@@ -12,14 +12,14 @@ namespace DBSQLONE.Pages.Authentication
 {
     public class RegistrationModel : PageModel
     {
-        public Registration Registration;
+        public User NewUser = new();
         public string ErrorMessage;
         public void OnGet()
         { }
 
-        public IActionResult OnPostRegistration(Registration registration)
+        public IActionResult OnPostRegistration(User user)
         {
-            if(Execute(registration))
+            if(Execute(user))
             {
                 // Переадресация на вход
                 return RedirectToPage("/Index");
@@ -30,7 +30,7 @@ namespace DBSQLONE.Pages.Authentication
             }
         }
 
-        public bool Execute(Registration registration)
+        public bool Execute(User user)
         {
             MySqlConnection conn = DatabaseConnection.GetMyDB();
             try
@@ -39,9 +39,9 @@ namespace DBSQLONE.Pages.Authentication
                 string sql = "INSERT Users(Nickname, EmailUser, PasswordUser) VALUES(@Nickname, @EmailUser, @PasswordUser)";
                 MySqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = sql;
-                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = registration.Nickname;
-                cmd.Parameters.Add("@EmailUser", MySqlDbType.VarChar).Value = registration.EmailUser;
-                cmd.Parameters.Add("@PasswordUser", MySqlDbType.VarChar).Value = registration.PasswordUser;
+                cmd.Parameters.Add("@Nickname", MySqlDbType.VarChar).Value = user.Nickname;
+                cmd.Parameters.Add("@EmailUser", MySqlDbType.VarChar).Value = user.EmailUser;
+                cmd.Parameters.Add("@PasswordUser", MySqlDbType.VarChar).Value = user.PasswordUser;
                 cmd.ExecuteNonQuery();
             }
             catch
